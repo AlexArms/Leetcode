@@ -12,15 +12,19 @@
  * @return {boolean}
  */
 var findTarget = function(root, k) {
-  if (!root) return false;
-  const set = new Set();
-  const stack = [root];
-  while (stack.length) {
-    const node = stack.pop();
-    if (set.has(k - node.val)) return true;
-    set.add(node.val);
-    if (node.right) stack.push(node.right);
-    if (node.left) stack.push(node.left);
+  const vals = new Set();
+  let validPair = false;
+  const dfs = (node) => {
+    if (!node) return;
+    if (vals.has(node.val)) {
+      validPair = true;
+      return;
+    } else {
+      vals.add(k - node.val);
+      dfs(node.left);
+      dfs(node.right);
+    }
   }
-  return false;
+  dfs(root);
+  return validPair;
 };
