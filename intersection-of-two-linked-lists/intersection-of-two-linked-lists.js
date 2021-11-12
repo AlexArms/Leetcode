@@ -12,9 +12,7 @@
  * @return {ListNode}
  */
 var getIntersectionNode = function(headA, headB) {
-    // traverse one list, add seen prop to nodes
-    // traverse second list, first node with seen prop is link
-    // if no seen, return null
+    
     while (headA) {
         headA.seen = true;
         headA = headA.next;
