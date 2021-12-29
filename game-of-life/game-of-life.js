@@ -4,35 +4,25 @@
  */
 var gameOfLife = function(board) {
     const boardCopy = board.map(row => row.map(cell => cell));
-    for (let i = 0; i < boardCopy.length; i++) {
-        const row = boardCopy[i];
-        for (let j = 0; j < row.length; j++) {
-            let surroundingSum = checkSurroundingSum(i, j, boardCopy);
-            let val = 0;
-            if (surroundingSum < 2) {
-                val = 0;
-            } else if (surroundingSum > 3) {
-                val = 0;
-            } else if (surroundingSum === 3) {
-                val = 1;
-            } else {
-                val = boardCopy[i][j];
-            }
+    board.forEach((row, i) => {
+        row.forEach((cell, j) => {
+            const surroundingSum = getSurroundingSum(i, j, boardCopy);
+            let val = cell;
+            if (surroundingSum < 2 || surroundingSum > 3) val = 0;
+            else if (surroundingSum === 3) val = 1;
             board[i][j] = val;
-        }
-    }
-    // return board;
+        });
+    });
 };
 
-const checkSurroundingSum = (row, col, board) => {
+const getSurroundingSum = (row, col, board) => {
     let sum = 0;
-    if (board[row][col + 1]) sum++;
-    if (board[row][col - 1]) sum++;
-    if (board[row - 1] && board[row - 1][col]) sum++;
-    if (board[row + 1] && board[row + 1][col]) sum++;
-    if (board[row + 1] && board[row + 1][col + 1]) sum++;
-    if (board[row + 1] && board[row + 1][col - 1]) sum++;
-    if (board[row - 1] && board[row - 1][col + 1]) sum++;
-    if (board[row - 1] && board[row - 1][col - 1]) sum++;
+    const directions = [[0, 1], [0, -1], [-1, 0], [1, 0], [1, 1], [-1, -1], [-1, 1], [1, -1]];
+    directions.forEach(([dRow, dCol]) => {
+        if (board[row + dRow] && board[row + dRow][col + dCol]) sum++; 
+    });
     return sum;
 }
+
+// convert seen vals to strings
+// if string, toggle boolean context after conversion to num and use conversion
