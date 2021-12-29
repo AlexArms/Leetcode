@@ -7,10 +7,8 @@ var gameOfLife = function(board) {
     board.forEach((row, i) => {
         row.forEach((cell, j) => {
             const surroundingSum = getSurroundingSum(i, j, boardCopy);
-            let val = cell;
-            if (surroundingSum < 2 || surroundingSum > 3) val = 0;
-            else if (surroundingSum === 3) val = 1;
-            board[i][j] = val;
+            if (surroundingSum < 2 || surroundingSum > 3) board[i][j] = 0;
+            if (surroundingSum === 3) board[i][j] = 1;
         });
     });
 };
